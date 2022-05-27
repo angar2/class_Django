@@ -3,6 +3,7 @@ from .models import UserModel
 from django.http import HttpResponse # 화면에 글자를 띄울 때 사용
 from django.contrib.auth import get_user_model # 사용자가 데이터베이스 안에 있는지 검사하는 함수(중복 확인)
 from django.contrib import auth # 암호화된 비밀번호가 일치하는지 검사하는 함수
+from django.contrib.auth.decorators import login_required # 로그인되어 있어야만 함수가 발동하게 함
 
 # Create your views here.
 def sign_up_view(request):
@@ -47,3 +48,8 @@ def sign_in_view(request):
             return redirect('/')
         else:
             return render(request, 'user/signin.html')
+        
+@login_required
+def logout(request):
+    auth.logout(request)
+    return redirect('/')
