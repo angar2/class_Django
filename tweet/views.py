@@ -10,4 +10,9 @@ def home(request):
 
 def tweet(request):
     if request.method == 'GET':
-        return render(request, 'tweet/home.html')
+        user = request.user.is_authenticated  # 사용자가 로그인했는지 인증함
+        if user:
+            return render(request, 'tweet/home.html')
+        else:
+            return redirect('/sign-in')
+

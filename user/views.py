@@ -7,7 +7,11 @@ from django.contrib import auth # 암호화된 비밀번호가 일치하는지 �
 # Create your views here.
 def sign_up_view(request):
     if request.method == 'GET':
-        return render(request, 'user/signup.html')
+        user = request.user.is_authenticated
+        if user:
+            return redirect('/')
+        else:
+            return render(request, 'user/signup.html')
     elif request.method == 'POST':
         username = request.POST.get('username', None)
         password = request.POST.get('password', None)
@@ -38,4 +42,8 @@ def sign_in_view(request):
             return redirect('/sign-in')
 
     elif request.method == 'GET':
-        return render(request, 'user/signin.html')
+        user = request.user.is_authenticated
+        if user:
+            return redirect('/')
+        else:
+            return render(request, 'user/signin.html')
