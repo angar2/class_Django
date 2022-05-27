@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import UserModel
 from django.http import HttpResponse # 화면에 글자를 띄울 때 사용
+from django.contrib.auth import get_user_model # 사용자가 데이터베이스 안에 있는지 검사하는 함수(중복 확인)
 
 # Create your views here.
 def sign_up_view(request):
@@ -15,16 +16,12 @@ def sign_up_view(request):
         if password != password2:
             return render(request, 'user/signup.html')
         else:
-            exist_user = UserModel.objects.filter(username = username)
+            exist_user = get_user_model().objects.filter(username = username)
 
             if exist_user:
                 return render(request, 'user/signup.html')
             else:
-                new_user = UserModel()
-                new_user.username = username
-                new_user.password = password
-                new_user.bio = bio
-                new_user.save() # model.py로 데이터를 넘겨서 데이터베이스로 저장함
+                UserModel.objects.create_user(username = username, password = password, bio = bio)
             return redirect('/sign-in')
 
 def sign_in_view(request):
