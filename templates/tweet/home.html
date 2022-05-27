@@ -25,7 +25,8 @@
                                     <div class="media-body">
                                         <h5 class="mt-0">나의 이야기를 적어주세요</h5>
                                         <p>
-                                        <form>
+                                        <form action="/tweet/" method="post">
+                                        {% csrf_token %}
                                             <div class="form-group mb-2">
                                                 <textarea class="form-control" style="resize: none" name='my-content' id="my-content"></textarea>
                                             </div>
